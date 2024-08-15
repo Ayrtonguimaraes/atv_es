@@ -1,0 +1,80 @@
+// Definindo a classe Book
+class Book {
+  constructor(id, title, description, author) {
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.author = author;
+  }
+}
+
+// Definindo a classe Library
+class Library {
+  constructor() {
+    this.books = [];
+  }
+
+  // Método para adicionar um livro
+  addBook(bookInfo) {
+    const id = (Math.random() * 1000000).toString(); // Gerando um ID simples para o livro
+    const newBook = new Book(id, bookInfo.title, bookInfo.description, bookInfo.author);
+    this.books.push(newBook);
+    return newBook;
+  }
+
+  // Método para listar todos os livros
+  getBooks() {
+    return this.books;
+  }
+
+  // Método para remover um livro pelo ID
+  removeBookById(id) {
+    this.books = this.books.filter(book => book.id !== id);
+  }
+
+  // Método para obter um livro pelo ID
+  getBookById(id) {
+    return this.books.find(book => book.id === id);
+  }
+
+  // Método para atualizar um livro pelo ID
+  updateBookById(id, info) {
+    const book = this.getBookById(id);
+    if (book) {
+      if (info.title) book.title = info.title;
+      if (info.description) book.description = info.description;
+      if (info.author) book.author = info.author;
+    }
+    return book;
+  }
+}
+
+// Exemplo de uso:
+const myLibrary = new Library();
+
+// Adicionando um livro
+const newBook = myLibrary.addBook({
+  title: 'JavaScript: The Good Parts',
+  description: 'A deep dive into the best features of JavaScript.',
+  author: 'Douglas Crockford'
+});
+
+console.log('Livro adicionado:', newBook);
+
+// Listando todos os livros
+console.log('Todos os livros:', myLibrary.getBooks());
+
+// Obtendo um livro pelo ID
+const book = myLibrary.getBookById(newBook.id);
+console.log('Livro encontrado:', book);
+
+// Atualizando um livro pelo ID
+const updatedBook = myLibrary.updateBookById(newBook.id, {
+  title: 'JavaScript: The Best Parts',
+  author: 'D. Crockford'
+});
+console.log('Livro atualizado:', updatedBook);
+
+// Removendo um livro pelo ID
+myLibrary.removeBookById(newBook.id);
+console.log('Todos os livros após remoção:', myLibrary.getBooks());
